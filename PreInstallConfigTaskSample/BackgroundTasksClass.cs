@@ -16,6 +16,7 @@ namespace TargetUWPApplication
         /// <param name="e"></param>
         public static async Task<BackgroundTaskRegistration> RegisterSessionConnectedBackgroundTask()
         {
+            // see if we're able to register a background task
             BackgroundAccessStatus permissionGranted = await BackgroundExecutionManager.RequestAccessAsync();
 
             BackgroundTaskRegistration backgroundTaskRegistration = null;
@@ -25,12 +26,13 @@ namespace TargetUWPApplication
                  permissionGranted != BackgroundAccessStatus.DeniedByUser &&
                  permissionGranted != BackgroundAccessStatus.Unspecified)
             {
-                // it has to be unregistered first
+                // it has to be unregistered first, even if never registered before
                 UnregisterBackgroundTasks(App.SessionConnectedBackgroundTaskName);
 
+                // the trigger for the task, in this case, the SessionConnected event
                 SystemTrigger trigger = new SystemTrigger(SystemTriggerType.SessionConnected, false);
 
-                // now register it
+                // now register it with the static parameters declared in App.xaml.cs
                 backgroundTaskRegistration = RegisterBackgroundTask(App.SessionConnectedBackgroundTaskEntryPoint,
                                                                        App.SessionConnectedBackgroundTaskName,
                                                                        trigger,

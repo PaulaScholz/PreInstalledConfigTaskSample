@@ -82,8 +82,7 @@ namespace TargetUWPApplication
             if (args.Kind == ActivationKind.Protocol)
             {
                 ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
-                // TODO: Handle URI activation
-                // The received URI is eventArgs.Uri.AbsoluteUri
+
                 Frame rootFrame = Window.Current.Content as Frame;
 
                 // Do not repeat app initialization when the Window already has content,

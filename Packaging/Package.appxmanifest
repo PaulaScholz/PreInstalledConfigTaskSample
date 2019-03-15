@@ -37,17 +37,6 @@
           <uap:Protocol Name="sample" />
         </uap:Extension>
         <desktop:Extension Category="windows.fullTrustProcess" Executable="Launcher\Launcher.exe" />
-        <!--
-          <desktop:Extension
-            Category="windows.startupTask"
-            Executable="$targetnametoken$.exe"
-            EntryPoint="$targetentrypoint$">
-            <desktop:StartupTask
-              TaskId="$targetnametoken$"
-              Enabled="true"
-              DisplayName="TargetUWPApplication" />
-          </desktop:Extension>
-        -->
       </Extensions>
     </Application>
   </Applications>

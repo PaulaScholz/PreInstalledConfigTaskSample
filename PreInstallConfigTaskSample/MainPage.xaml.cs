@@ -18,8 +18,6 @@ namespace TargetUWPApplication
         public MainPage()
         {
             this.InitializeComponent();
-
-
         }
 
         /// <summary>
@@ -29,21 +27,22 @@ namespace TargetUWPApplication
         /// property is typically used to configure the page.</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // Only the SessionConnectedTask requires registration.  PreInstallConfigTask and UpdateTask do not.
             var sessionTaskRegistration = await BackgroundTasksClass.RegisterSessionConnectedBackgroundTask();
 
             foreach (var task in BackgroundTaskRegistration.AllTasks)
             {
                 if (task.Value.Name == App.SessionConnectedBackgroundTaskName)
                 {
+                    // attach the Progress and Completed handlers
                     AttachProgressAndCompletedHandlers(task.Value);
                     break;
                 }
             }
 
+            // doesn't do anything in this demo, but is the pattern if you need it
             UpdateUI();
         }
-
-
 
         /// <summary>
         /// Attach progress and completed handers to a background task.
@@ -59,7 +58,7 @@ namespace TargetUWPApplication
         /// Handle background task progress.
         /// </summary>
         /// <param name="task">The task that is reporting progress.</param>
-        /// <param name="e">Arguments of the progress report.</param>
+        /// <param name="args">Arguments of the progress report.</param>
         private void OnProgress(IBackgroundTaskRegistration task, BackgroundTaskProgressEventArgs args)
         {
             var ignored = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -75,7 +74,7 @@ namespace TargetUWPApplication
         /// Handle background task completion.
         /// </summary>
         /// <param name="task">The task that is reporting completion.</param>
-        /// <param name="e">Arguments of the completion report.</param>
+        /// <param name="args">Arguments of the completion report.</param>
         private void OnCompleted(IBackgroundTaskRegistration task, BackgroundTaskCompletedEventArgs args)
         {
             //UpdateUI();

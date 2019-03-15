@@ -35,6 +35,7 @@ namespace BackgroundTasks
             }
             finally
             {
+                // this must always be called, even if there is an exception
                 deferral.Complete();
             }
         }

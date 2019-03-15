@@ -8,6 +8,8 @@ namespace BackgroundTasks
     /// <summary>
     /// To debug this Update task, use the procedure here:
     /// https://docs.microsoft.com/en-us/windows/uwp/launch-resume/run-a-background-task-during-updatetask
+    /// 
+    /// This task is triggered by updating the build number in the last tab of the Packaging project's Package.appxmanifest
     /// </summary>
     public sealed class UpdateTask : IBackgroundTask
     {
@@ -27,6 +29,7 @@ namespace BackgroundTasks
             }
             finally
             {
+                // this must always be called, even if there is an exception
                 deferral.Complete();
             }            
         }
