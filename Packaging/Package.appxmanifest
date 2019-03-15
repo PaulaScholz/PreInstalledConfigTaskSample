@@ -33,11 +33,11 @@
         </Extension>
         <Extension Category="windows.updateTask" EntryPoint="BackgroundTasks.UpdateTask" />
         <Extension Category="windows.preInstalledConfigTask" EntryPoint="BackgroundTasks.PreInstalledConfigTask" />
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="sample">
-            <uap:DisplayName>Microsoft Sample</uap:DisplayName>
-          </uap:Protocol>
+        <uap:Extension Category="windows.protocol" >
+          <uap:Protocol Name="sample" />
         </uap:Extension>
+        <desktop:Extension Category="windows.fullTrustProcess" Executable="Launcher\Launcher.exe" />
+        <!--
           <desktop:Extension
             Category="windows.startupTask"
             Executable="$targetnametoken$.exe"
@@ -47,10 +47,12 @@
               Enabled="true"
               DisplayName="TargetUWPApplication" />
           </desktop:Extension>
+        -->
       </Extensions>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <rescap:Capability Name="runFullTrust" />
   </Capabilities>
 </Package>

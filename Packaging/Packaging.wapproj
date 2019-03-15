@@ -56,6 +56,7 @@
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Launcher\Launcher.csproj" />
     <ProjectReference Include="..\PreInstallConfigTaskSample\TargetUWPApplication.csproj" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
