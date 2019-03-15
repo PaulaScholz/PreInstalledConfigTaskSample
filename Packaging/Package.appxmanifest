@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap mp rescap">
-  <Identity Name="020fdc84-9f98-466e-9a45-26c8880ec6ca" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" Version="1.0.10.0" />
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" 
+         xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" 
+         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
+         xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" 
+         xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+         IgnorableNamespaces="uap mp rescap">
+  
+  <Identity Name="020fdc84-9f98-466e-9a45-26c8880ec6ca" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" Version="1.0.11.0" />
   <mp:PhoneIdentity PhoneProductId="f3a8ffdd-c6c4-4407-b143-8333e08c117a" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>TargetUWPApplication</DisplayName>
@@ -32,6 +38,15 @@
             <uap:DisplayName>Microsoft Sample</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
+          <desktop:Extension
+            Category="windows.startupTask"
+            Executable="$targetnametoken$.exe"
+            EntryPoint="$targetentrypoint$">
+            <desktop:StartupTask
+              TaskId="$targetnametoken$"
+              Enabled="true"
+              DisplayName="TargetUWPApplication" />
+          </desktop:Extension>
       </Extensions>
     </Application>
   </Applications>

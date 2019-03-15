@@ -12,7 +12,9 @@ namespace BackgroundTasks
             BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
             try
             {
-                Debug.WriteLine("Inside UpdateTask");
+                Debug.WriteLine("Inside SessionConnectedTask");
+
+                //await Windows.System.Launcher.LaunchUriAsync(new Uri("sample:"));
 
                 ToastHelper.ShowToast("SessionConnectedTask", "Task has run.");
 
