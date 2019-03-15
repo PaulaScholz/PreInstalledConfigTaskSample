@@ -28,7 +28,7 @@ namespace TargetUWPApplication
                 // it has to be unregistered first
                 UnregisterBackgroundTasks(App.SessionConnectedBackgroundTaskName);
 
-                SystemTrigger trigger = new SystemTrigger(SystemTriggerType.UserPresent, false);
+                SystemTrigger trigger = new SystemTrigger(SystemTriggerType.SessionConnected, false);
 
                 // now register it
                 backgroundTaskRegistration = RegisterBackgroundTask(App.SessionConnectedBackgroundTaskEntryPoint,
