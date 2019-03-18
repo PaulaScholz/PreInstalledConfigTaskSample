@@ -36,6 +36,11 @@ From the top down, we first see the `BackgroundTasks` project, a Universal Windo
 
 Next, we see the `Launcher` project.  This is a simple "runFullTrust" Win32 application that has the sole purpose of launching the main UWP application by URI [protocol](https://msdn.microsoft.com/en-us/magazine/mt842502.aspx "Protocol Registration and Activation in UWP Apps").  This pure Win32 application is launched by the PreInstallConfigTask and SessionConnected background tasks in response to triggering events.
 
-Next, the solution contains `Packaging`, the start-up project, which is the [Windows Application Packaging Project](https://docs.microsoft.com/en-us/windows/uwp/porting/desktop-to-uwp-packaging-dot-net) for our solution.  It is within the context of this project that our solution will be packaged for sideloading and deployment to the [Windows Store](https://www.microsoft.com/en-us/store/apps/windows).  This is the project where package capabilities, store logos, and configuration are set.
+Next, the solution contains `Packaging`, the start-up project, which is the [Windows Application Packaging Project](https://docs.microsoft.com/en-us/windows/uwp/porting/desktop-to-uwp-packaging-dot-net "Package a desktop application by using Visual Studio") for our solution.  It is within the context of this project that our solution will be packaged for sideloading and deployment to the [Windows Store](https://www.microsoft.com/en-us/store/apps/windows "Windows Store main page").  This is the project where package capabilities, store logos, and configuration are set.
 
 Finally, the `TargetUWPApplication` project, which is our very simple UWP application that is supported by the BackgroundTasks and Launcher projects.  This is a very simple single-page UWP application that does nothing. We have modified it to respond to protocol activation by the `sample:` URI protocol defined in the `Package.appxmanifest` file of the `Packaging` project.
+
+Let's look at how these projects relate to each other:
+<figure>
+  <img src="docimages/ProjectLayers.png" alt="Project Layers"/>
+</figure>
