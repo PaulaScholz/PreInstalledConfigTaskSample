@@ -25,3 +25,9 @@ We will show how to register a "`Protocol`" in the application manifest so the a
 
 Finally, we will use the `SessionConnected` task, a normal UWP BackgroundTask fired by a `SystemEvent` trigger, to auto-run the target UWP application after user login by using the `Protocol`.  This task will also show a Toast notification.
 
+# Visual Studio Solution
+The Visual Studio solution is shown below.  There are four projects:
+<figure>
+  <img src="docimages/VisualStudioSolution.png" alt="Visual Studio Solution"/>
+</figure>
+From the top down, we first see the `BackgroundTasks` project, a Universal Windows project. As the name suggests, this is the [out-of-process BackgroundTasks](https://docs.microsoft.com/en-us/windows/uwp/launch-resume/create-and-register-a-background-task "BackgroundTasks article") project of our solution and runs when the main UWP application is not in the foreground.
