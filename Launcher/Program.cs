@@ -33,8 +33,7 @@ namespace Launcher
 
                 if (ex.HResult == E_FAIL)
                 {
-                    // the user cancelled the elevated process
-                    // by clicking "No" on the Windows elevation dialog
+                    // there was some sort of general failure
                     exitCode = 1;
                 }
             }

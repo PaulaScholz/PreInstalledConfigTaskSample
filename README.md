@@ -233,3 +233,103 @@ Of special note is the `SystemTrigger` [class](https://docs.microsoft.com/en-us/
 
 # BackgroundTasks Project
 
+The BackgroundTasks project is where our background tasks reside.  Note that its output type is `Windows Runtime Component`.
+
+<figure>
+  <img src="docimages/BackgroundTasksProperties.png" alt="Target UWP Application"/>
+</figure>
+
+It has the three background tasks and a ToastHelper.cs file for sending Toast notifications. Each of these tasks is very simple and we'll look at each in turn.
+
+The first task is the PreInstalledUpdateTask class, derived from `IBackgroundTask`.  Note that all background task classes must be sealed, and in our case the task is marked with the async modifier, which allows us to run asynchronous code.  It looks like this:
+
+```c#
+    public sealed class PreInstalledConfigTask : IBackgroundTask
+    {
+        public async void Run(IBackgroundTaskInstance taskInstance)
+        {
+            BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
+            try
+            {
+                string message = "Task has run.";
+
+                Debug.WriteLine("Inside PreInstalledConfigTask");
+
+                try
+                {
+                    // launch the UWP app
+                    await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+                }
+                catch (Exception ex)
+                {
+                    message = ex.Message;
+                }
+
+                ToastHelper.ShowToast("PreInstalledConfigTask", message);
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(string.Format("Exception in PreInstalledConfigTask, message is {0}", ex.Message));
+            }
+            finally
+            {
+                // this must always be called, even if there is an exception
+                deferral.Complete();
+            }
+        }
+    }
+```
+
+First, we ask for a [deferral](https://docs.microsoft.com/en-us/uwp/api/Windows.ApplicationModel.Background.BackgroundTaskDeferral "BackgroundTaskDeferral class") to delay the task from closing prematurely while asynchronous code is still running. Then, we attempt to launch the Win32 full trust application declared in the `Package.appxmanifest`, in our case, `Launcher.exe`.  This takes place in a try/catch/finally block.  We display the status in a Toast notification and then signal that our deferral is complete in the `finally` clause.
+
+The `SessionConnected` task works exactly the same way, except it is triggered at user login.  Both tasks start the `Launcher.exe` process, which launches `TargetUWPApplication` via Protocol.  
+
+The difference between the two tasks is the `PreInstallConfigTask` runs at the end of the Windows Out of Box [Experience](https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/customize-oobe "Customize the Out of Box Experience") (OOBE) when the computer is turned on for the first time, and then never runs again. Launching the `TargetUWPApplication` for the first time registers our `SessionConnected` background task, which will then launch the UWP app every time the user logs on in this example.
+
+The `UpdateTask` is slightly different and only runs when the application is updated through the Windows Store when the build number changes.  To test this task, one need only rebuild the application after incrementing the build number.  This is done by double-clicking the `Package.appxmanifest` file in the `Packaging` project, on the Packaging tab, like this:
+
+<figure>
+  <img src="docimages/PackagingTab.png" alt="Packaging tab"/>
+</figure>
+
+After a build is complete, running the application from Visual Studio or from a Windows Store update will trigger the UpdateTask.  In our case, all we do is launch a Toast notification, like this:
+
+```c#
+    /// <summary>
+    /// To debug this Update task, use the procedure here:
+    /// https://docs.microsoft.com/en-us/windows/uwp/launch-resume/run-a-background-task-during-updatetask
+    /// 
+    /// This task is triggered by updating the build number in the last tab of the Packaging project's Package.appxmanifest
+    /// </summary>
+    public sealed class UpdateTask : IBackgroundTask
+    {
+        public void Run(IBackgroundTaskInstance taskInstance)
+        {
+            BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
+            try
+            {
+                Debug.WriteLine("Inside UpdateTask");
+
+                ToastHelper.ShowToast("UpdateTask", "Task has run.");
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(string.Format("Exception in UpdateTask, message is {0}", ex.Message));
+            }
+            finally
+            {
+                // this must always be called, even if there is an exception
+                deferral.Complete();
+            }            
+        }
+    }
+```
+
+
+
+
+
+
+
