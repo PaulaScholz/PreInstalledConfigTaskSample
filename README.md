@@ -327,6 +327,78 @@ After a build is complete, running the application from Visual Studio or from a 
     }
 ```
 
+## Launcher Project
+
+The `Launcher` project is our Win32 `runFullTrust` application that launches `TargetUWPApplication` by Protocol.  This program is very simple:
+
+```c#
+using System;
+using System.Diagnostics;
+
+namespace Launcher
+{
+    class Program
+    {
+        // HRESULT 80004005 is E_FAIL
+        const int E_FAIL = unchecked((int)0x80004005);
+
+        static int Main(string[] args)
+        {
+
+            ProcessStartInfo info = new ProcessStartInfo();
+
+            info.UseShellExecute = true;
+            
+            // this is the protocol
+            info.FileName =  @"sample://";
+
+            Process process = new Process();
+            process.StartInfo = info;
+            int exitCode = 0;
+
+            try
+            {
+                process.Start();
+            }
+            catch (Exception ex)
+            {
+                // default exception exitCode
+                exitCode = 3;
+
+                if (ex.HResult == E_FAIL)
+                {
+                    // there was some sort of general failure
+                    exitCode = 1;
+                }
+            }
+
+            return exitCode;
+        }
+    }
+}
+```
+
+If all goes well, an exit code of zero is returned to the calling process, in this case one of the background tasks.  We don't check for this in our logic, but is the pattern if you need it.  Recall, the Protocol is the one defined in the Packaging projects `Package.appxmanifest` XML.
+
+## More Information
+
+There is an excellent article by Stefan Wick on the UpdateTask for Desktop Bridge apps:  https://stefanwick.com/2017/06/06/updatetask-for-desktop-bridge-apps/
+
+Also, an UpdateTask article by noted Windows developer Martin Schuan:  https://www.suchan.cz/category/uwp/
+
+Protocol Registration and Activation in UWP Apps by Frank La Vigne:  https://msdn.microsoft.com/en-us/magazine/mt842502.aspx
+
+
+
+Docs.Microsoft.Com articles:
+
+https://docs.microsoft.com/en-us/windows/uwp/xbox-apps/automate-launching-uwp-apps
+
+https://docs.microsoft.com/en-us/windows-hardware/customize/preinstall/preinstall-tasks
+
+
+
+
 
 
 
