@@ -69,6 +69,7 @@ namespace TargetUWPApplication
                 Window.Current.Activate();
             }
         }
+
         /// <summary>
         /// Handle protocol navigation.
         /// https://docs.microsoft.com/en-us/windows/uwp/launch-resume/handle-uri-activation
